@@ -1,0 +1,174 @@
+{
+  "IdentitySuiteOptions": {
+    "Database": {
+      "ConnectionStrings": {
+        "SqlServerConnection": "",
+        "PostgreSqlConnection": "Host=db;Port=5432;Database=identitydb;Username=identity;Password=secret",
+        "MySqlConnection": ""
+      },
+      "Initialize": false,
+      "ApplyMigrations": false
+    },
+    "SupportedCultures": [
+      {
+        "Culture": "en-GB",
+        "Index": 0
+      }
+    ],
+    "EmailConfiguration": {
+      "Provider": "Smtp",
+      "FromName": "",
+      "From": "",
+      "Host": "",
+      "Port": 587,
+      "UserName": "",
+      "Password": "",
+      "SendGridUri": "https://api.sendgrid.com"
+    },
+    "Cors": {
+      "AllowedOrigins": [],
+      "AllowedMethods": [],
+      "AllowedHeaders": [],
+      "ExposedHeaders": [],
+      "AllowCredentials": false,
+      "PreflightMaxAge": 600
+    },
+    "RateLimiting": {
+      "Enabled": false,
+      "Policies": {
+        "oidc-critical-endpoints": {
+          "PermitLimit": 20,
+          "SegmentsPerWindow": 10,
+          "Window": "00:05:00",
+          "QueueLimit": 0,
+          "AutoReplenishment": true
+        },
+        "oidc-default-endpoints": {
+          "PermitLimit": 60,
+          "SegmentsPerWindow": 10,
+          "Window": "00:05:00",
+          "QueueLimit": 0,
+          "AutoReplenishment": true
+        },
+        "global-endpoints": {
+          "PermitLimit": 100,
+          "SegmentsPerWindow": 5,
+          "Window": "00:05:00",
+          "QueueLimit": 0,
+          "AutoReplenishment": true
+        }
+      },
+      "WhitelistedIPs": [],
+      "BlacklistedIPs": [],
+      "EnableMetrics": false
+    },
+    "LoginProviders": [],
+    "OpenIddictOptions": {
+      "Scopes": [
+        "openid",
+        "profile",
+        "email",
+        "offline_access",
+        "roles"
+      ],
+      "Claims": [
+        "sub",
+        "name",
+        "given_name",
+        "family_name",
+        "email",
+        "email_verified"
+      ],
+      "Audiences": [],
+      "FlowConfiguration": {
+        "AllowAuthorizationCodeFlow": true,
+        "AllowHybridFlow": false,
+        "AllowClientCredentialsFlow": false,
+        "AllowRefreshTokenFlow": true,
+        "AllowPasswordFlow": false,
+        "AllowDeviceAuthorizationFlow": false,
+        "AllowImplicitFlow": false,
+        "RequireProofKeyForCodeExchange": true,
+        "RequirePushedAuthorizationRequests": false,
+        "EnableUserInfoEndpoint": true,
+        "AcceptAnonymousClients": false
+      },
+      "TokenConfiguration": {
+        "UseReferenceAccessTokens": true,
+        "UseReferenceRefreshTokens": true
+      },
+      "AspNetCoreConfiguration": {
+        "EnableStatusCodePagesIntegration": true,
+        "EnableAuthorizationEndpointPassthrough": true,
+        "EnableTokenEndpointPassthrough": true,
+        "EnableUserInfoEndpointPassthrough": true,
+        "EnableEndUserVerificationEndpointPassthrough": false,
+        "EnableEndSessionEndpointPassthrough": true
+      },
+      "LifeTimeConfiguration": {
+        "AccessTokenLifetime": "00:30:00",
+        "IdentityTokenLifetime": "00:30:00",
+        "AuthorizationCodeLifetime": "00:05:00",
+        "UserCodeLifetime": "00:10:00",
+        "DeviceCodeLifetime": "00:30:00",
+        "RefreshTokenLifetime": "14.00:00:00"
+      },
+      "ValidationConfiguration": {
+        "EnableAuthorizationEntryValidation": true,
+        "EnableTokenEntryValidation": false
+      },
+      "SecuritySettings": {
+        "UseDataProtection": true,
+        "EnableAccessTokenEncryption": true,
+        "Certificates": {
+          "Mode": "Builtin",
+          "Signing": {
+            "ForceRotation": false,
+            "Source": "FileSystem",
+            "Thumbprint": "",
+            "StoreLocation": "CurrentUser",
+            "StoreName": "My"
+          },
+          "Encryption": {
+            "ForceRotation": false,
+            "Source": "FileSystem",
+            "Thumbprint": "",
+            "StoreLocation": "CurrentUser",
+            "StoreName": "My"
+          },
+          "ExpiredCertificates": [],
+          "NotifyEmail": "",
+          "CertificateExpiryAlertThresholdDays": 7
+        }
+      }
+    },
+    "IdentityOptions": {
+      "RequiredLength": 8,
+      "RequireNonAlphanumeric": true,
+      "RequireLowercase": true,
+      "RequireUppercase": true,
+      "RequireDigit": true,
+      "RequiredUniqueChars": 5,
+      "AllowedPasswordRegex": "^[\\w,;.\u002B\\-!|$^()@\\[\\]]\u002B$",
+      "AllowedForNewUsers": true,
+      "DefaultLockoutTimeSpanInMinutes": 15,
+      "MaxFailedAccessAttempts": 5,
+      "RequireUniqueEmail": true,
+      "AllowedUserNameRegex": "^[a-zA-Z0-9]\u002B([._\u002B-][a-zA-Z0-9]\u002B)*$",
+      "RequireConfirmedEmail": true,
+      "RequireConfirmedAccount": false,
+      "RequireConfirmedPhoneNumber": false,
+      "ProtectPersonalData": false,
+      "MaxLengthForKeys": 0,
+      "EnableUserRegistration": true,
+      "EnablePasskeyLogin": true,
+      "EnableSocialLogin": true,
+      "DefaultUserGroup": "User",
+      "SoftEmailVerification": false,
+      "EnableEmailAuthenticator": false,
+      "EnablePhoneAuthenticator": false
+    },
+    "GoogleFontKey": "",
+    "LicenseKey": ""
+  }
+}

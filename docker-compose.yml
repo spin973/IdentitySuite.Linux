@@ -1,0 +1,29 @@
+services:
+  identitysuite.linux:
+    image: ${DOCKER_REGISTRY-}identitysuitelinux
+    build:
+      context: .
+      dockerfile: IdentitySuite.Linux/Dockerfile
+    ports:
+      - "5000:8080"   # expose container port 8080 on localhost:5000
+    depends_on:
+      - db
+    environment:
+      # PostgreSQL connection string using the Docker service name as host
+      - IdentitySuiteOptions__Database__ConnectionStrings__PostgreSqlConnection=Host=db;Port=5432;Database=identitydb;Username=identity;Password=secret
+
+  db:
+    image: postgres:16
+    restart: always
+    environment:
+      POSTGRES_USER: identity
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: identitydb
+    ports:
+      - "5433:5432"   # optional: exposes PostgreSQL outside Docker for local inspection
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
+        
