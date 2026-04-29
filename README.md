@@ -112,7 +112,7 @@ ASP.NET Core maps the double-underscore (`__`) separator to nested JSON keys, so
 ## Related resources
 
 - 📖 [Full guide on identitysuite.net](https://identitysuite.net/blog/identitysuite/docker-postgresql-guide)
-- 📖 [Getting Started](https://identitysuite.net/get-started)
+- 📖 [Getting Started](https://identitysuite.net/documentation/GetStarted)
 - 📖 [Authentication Made Easy — Securing SPAs with IdentitySuite](https://identitysuite.net/blog/identitysuite/authentication-made-easy-guide)
 - 📦 [IdentitySuite on NuGet](https://www.nuget.org/packages/IdentitySuite)
 - 📚 [IdentitySuite Documentation](https://identitysuite.net/documentation)
