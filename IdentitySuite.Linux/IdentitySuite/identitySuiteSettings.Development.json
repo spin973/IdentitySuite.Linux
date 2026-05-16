@@ -168,7 +168,23 @@
       "EnableEmailAuthenticator": false,
       "EnablePhoneAuthenticator": false
     },
+    "DashboardOptions": {
+      "EnableIpTracking": false,
+      "SecurityEventRetentionDays": 30,
+      "AtRiskFailureThreshold": 3
+    },
     "GoogleFontKey": "",
-    "LicenseKey": ""
+    "LicenseKey": "",
+    "Logging": {
+      "MinimumLevel": "Information",
+      "LevelOverrides": {
+        "Microsoft": "Warning",
+        "System": "Warning",
+        "Quartz": "Warning",
+        "Microsoft.Hosting.Lifetime": "Information"
+      },
+      "FileSizeLimitBytes": 9437184,
+      "RetainedFileCountLimit": 10
+    }
   }
 }
