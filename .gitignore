@@ -362,7 +362,6 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /IdentitySuite.Linux/IdentitySuite/bootstrap.json
-/IdentitySuite.Linux/IdentitySuite/bootstrap.json.backup_20260309212848
-/IdentitySuite.Linux/IdentitySuite/bootstrap.json.backup_20260515180855
+/IdentitySuite.Linux/IdentitySuite/bootstrap.json.*
 /IdentitySuite.Linux/IdentitySuite/cache.dat
 /IdentitySuite.Linux/Certificates/.schedule
