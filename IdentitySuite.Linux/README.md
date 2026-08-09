@@ -97,6 +97,59 @@ ASP.NET Core maps the double-underscore (`__`) separator to nested JSON keys, so
 
 ---
 
+## Going to production: persisting configuration, certificates, and the license binding
+
+The `docker-compose.yml` above only declares a persistent volume for `pgdata` (PostgreSQL). The `identitysuite.linux` container itself starts from a **fresh filesystem** every time it's recreated — an image update, `docker compose up --force-recreate`, a host reboot, etc. That silently resets:
+
+- **`/app/IdentitySuite`** — where IdentitySuite persists any setting written at runtime after first boot (themes, client logos, and other admin-side customization).
+- **`/app/Certificates`** — where OpenIddict generates its signing and encryption certificates on first run. A new certificate on every restart invalidates every existing access/refresh token (forced logout for everyone) and breaks decryption of the ASP.NET Core DataProtection keyring if it's shared through the database.
+- The license environment binding — inside a container, IdentitySuite backs it with a persisted seed file rather than a hardware ID (containers are, by design, hardware-agnostic). If that seed doesn't survive a recreation either, the license has to reactivate against the license server.
+
+None of this is destructive on its own (certificates and the license both regenerate/reactivate automatically), but it means the app never reaches a stable configuration in a container that gets recreated regularly.
+
+**Fix**: mount persistent volumes on these paths, and set `IDENTITYSUITE_DATA_DIR` so the license seed backup lands on one of them instead of falling back to `LocalApplicationData` — which inside a container resolves under `/app` itself, not a real home directory, defeating the point of having a *second*, independent anchor:
+
+```yaml
+services:
+  identitysuite.linux:
+    # ...
+    volumes:
+      - suite-config:/app/IdentitySuite
+      - suite-certs:/app/Certificates
+      - suite-seed:/data
+    environment:
+      - IdentitySuiteOptions__Database__ConnectionStrings__PostgreSqlConnection=Host=db;Port=5432;Database=identitydb;Username=identity;Password=secret
+      - IDENTITYSUITE_DATA_DIR=/data
+
+volumes:
+  pgdata:
+  suite-config:
+  suite-certs:
+  suite-seed:
+```
+
+A named volume that's never been used before is created empty and owned by `root` — which the non-root `$APP_UID` user in the base runtime image can't write to. Pre-create and `chown` the mount points in the `Dockerfile`, **before** switching to `$APP_UID` and before `WORKDIR`:
+
+```dockerfile
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS base
+RUN mkdir -p /data /app/IdentitySuite /app/Certificates \
+    && chown -R $APP_UID:$APP_UID /data /app
+USER $APP_UID
+WORKDIR /app
+```
+
+> Chown the whole `/app`, not just the two subfolders: `mkdir -p /app/IdentitySuite` also creates the parent `/app` as a side effect while still running as `root`. A `chown` limited to the two subfolders alone would leave `/app` itself root-owned and break every other file the app needs to write there directly (like `license.token`).
+
+Also make sure the final stage's `COPY` keeps ownership consistent with the non-root user — the sample `Dockerfile` in this repo is missing this and should be updated before use in production:
+
+```dockerfile
+COPY --from=publish --chown=$APP_UID:$APP_UID /app/publish .
+```
+
+Same tradeoff as the `pgdata` volume: once these volumes exist, a future image update that ships new default settings/themes/assets under `IdentitySuite/` won't automatically reach an already-deployed instance, since the volume's content wins over what's baked into the image. That's the correct behavior here — certificates, license state, and admin customization should never be silently overwritten by an image update.
+
+---
+
 ## Useful commands
 
 | Command | Description |

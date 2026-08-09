@@ -365,3 +365,6 @@ FodyWeavers.xsd
 /IdentitySuite.Linux/IdentitySuite/bootstrap.json.*
 /IdentitySuite.Linux/IdentitySuite/cache.dat
 /IdentitySuite.Linux/Certificates/.schedule
+/IdentitySuite.Linux/IdentitySuite/CE51B176D6299E16
+*.dat
+/nuget.config
